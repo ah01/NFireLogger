@@ -17,7 +17,7 @@ namespace NFireLogger
         {
             if (FLog.IsActive)
             {
-                FLog.Current.SendAndClose();
+                FLog.Current.Close();
             }
         }
 

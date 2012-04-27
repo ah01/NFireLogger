@@ -53,7 +53,14 @@ namespace NFireLogger.Utils
         static string ConverToBase64(string value)
         {
             // TODO acordnig to documentation, text could be directly in utf-8 but it's not, where is problem? 
-            // (EncodeNonAsciiCharacters simulate PHP implementation of firelogger server)
+            
+            // EncodeNonAsciiCharacters simulate PHP implementation of firelogger server 
+            // (in fact php function json_encode do this internaly with every string)
+            
+            // ColdFusion implementation throw away every non ascii characters (replace with '?')
+            // comment in CF implementation: firebug/logger/json parser seems to choke on high ascii characters
+            // (see https://github.com/mpaperno/CF-FireLogger/blob/master/us/wdg/cf/firelogger.cfc#L948 )
+            
             var sanitized = value.EncodeNonAsciiCharacters();
 
             var bytes = Encoding.UTF8.GetBytes(sanitized);

@@ -42,12 +42,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FireLogger.ILogger.cs" />
     <Compile Include="FireLogger.cs" />
     <Compile Include="FireLoggerHttpModule.cs" />
     <Compile Include="FLog.cs" />
+    <Compile Include="ILogger.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="LogMessage.cs" />
     <Compile Include="LogPacket.cs" />
+    <Compile Include="NamedLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\DateTimeExtensions.cs" />
     <Compile Include="Utils\HttpHeaderEncoder.cs" />
