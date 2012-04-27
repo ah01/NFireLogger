@@ -42,7 +42,6 @@ Global
 		{BA77B618-55B8-4456-8C1F-BAD6757FB17B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BA77B618-55B8-4456-8C1F-BAD6757FB17B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA77B618-55B8-4456-8C1F-BAD6757FB17B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BA77B618-55B8-4456-8C1F-BAD6757FB17B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
