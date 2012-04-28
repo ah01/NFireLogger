@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace NFireLogger.Utils
@@ -37,7 +38,14 @@ namespace NFireLogger.Utils
         /// </summary>
         public static string FormatWith(this string str, params object[] args)
         {
-            return String.Format(str, args);
+            if (args != null)
+            {
+                return String.Format(str, args);
+            }
+            else
+            {
+                return str;
+            }
         }
 
 
@@ -64,5 +72,23 @@ namespace NFireLogger.Utils
             }
             return sb.ToString();
         }
+
+
+        public static string ToMd5(this string value)
+        {
+            var md5 = new MD5CryptoServiceProvider();
+            var bytes = Encoding.Default.GetBytes(value);
+            
+            //var hash = BitConverter.ToString(md5.ComputeHash(bytes));
+            var hash = md5.ComputeHash(bytes);
+
+            var s = new StringBuilder();
+            foreach (byte b in hash)
+            {
+                s.Append(b.ToString("x2").ToLower());
+            }
+            return s.ToString();
+        }
+
     }
 }

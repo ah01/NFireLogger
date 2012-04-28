@@ -24,7 +24,7 @@ namespace Tests
 
             if (addHeaders)
             {
-                headers["X-FireLogger"] = "1.0";
+                headers["X-FireLogger"] = "1.2";
             }
 
             httpContext.SetupGet(c => c.Request).Returns(httpRequest.Object);
@@ -79,6 +79,48 @@ namespace Tests
             Assert.IsTrue(flogB.Enabled);
         }
 
+
+        [TestMethod]
+        public void TestPassword()
+        {
+            var httpContext = PrepareHttpContextForRequestTests(true);
+            
+            var loggerA = new FireLogger(httpContext.Object);
+            Assert.IsTrue(loggerA.Enabled);
+
+            var loggerB = new FireLogger(httpContext.Object, "pass"); // missing token
+            Assert.IsFalse(loggerB.Enabled);
+        }
+
+
+        [TestMethod]
+        public void TestAuth()
+        {
+            var password = "pass";
+            var token = "f0137e04f8e7803ebf7c12f82bb7dd86";
+
+            var httpContext = PrepareHttpContextForRequestTests(true);
+            httpContext.Object.Request.Headers["X-FireLoggerAuth"] = token;
+
+            var logger = new FireLogger(httpContext.Object, password);
+
+            Assert.IsTrue(logger.Enabled);
+        }
+
+
+        [TestMethod]
+        public void TestAuthWrong()
+        {
+            var password = "wrong pass";
+            var token = "46dc614a13be62dfa08e05fb7c207fd4";
+
+            var httpContext = PrepareHttpContextForRequestTests(true);
+            httpContext.Object.Request.Headers["X-FireLoggerAuth"] = token;
+
+            var logger = new FireLogger(httpContext.Object, password);
+
+            Assert.IsFalse(logger.Enabled);
+        }
 
 
         [TestMethod]

@@ -27,6 +27,13 @@ namespace NFireLogger
 
 
         /// <summary>
+        /// Password protection
+        /// (if set, request has to contains valid token)
+        /// </summary>
+        public string Password { get; private set; }
+
+
+        /// <summary>
         /// Name of logger when none is provided
         /// </summary>
         public const string DEFAULT_NAME = "ROOT";
@@ -36,6 +43,7 @@ namespace NFireLogger
         /// Minimal version of FireLogger client
         /// </summary>
         public const string MINIMAL_VERSION = "1.2";
+
 
         /// <summary>
         /// Current HttpContext
@@ -85,7 +93,17 @@ namespace NFireLogger
         /// 
         /// </summary>
         /// <param name="httpContext"></param>
-        public FireLogger(HttpContextBase httpContext)
+        public FireLogger(HttpContextBase httpContext) : this(httpContext, null)
+        {
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="httpContext"></param>
+        /// <param name="password"></param>
+        public FireLogger(HttpContextBase httpContext, string password)
         {
             if (httpContext == null)
             {
@@ -94,6 +112,7 @@ namespace NFireLogger
             }
 
             HttpContext = httpContext;
+            Password = password;
 
             AutodetectState();
         }
@@ -108,12 +127,40 @@ namespace NFireLogger
 
             if (HttpContext.Request.Headers["X-Firelogger"] != null)
             {
-                Enabled = true;
-
+                Enabled = IsRequestAuthenticated();
                 CheckVersion();
             }
+        }
 
-            // TODO add password protection
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        private bool IsRequestAuthenticated()
+        {
+            if (Password == null)
+            {
+                return true; // no protection
+            }
+
+            var clientToken = HttpContext.Request.Headers["X-FireLoggerAuth"];
+
+            if (clientToken == null)
+            {
+                return false; // no token
+            }
+
+            var myToken = "#FireLoggerPassword#{0}#".FormatWith(Password).ToMd5();
+
+            bool res = clientToken == myToken;
+
+            if (!res)
+            {
+                InternalError("FireLogger password do not match. Have you specified correct password FireLogger extension?");
+            }
+
+            return res;
         }
 
 
@@ -281,6 +328,7 @@ namespace NFireLogger
         /// 
         /// </summary>
         /// <param name="reason"></param>
+        [Conditional("TRACE")]
         private void InternalError(string reason)
         {
             if (!Silent)
