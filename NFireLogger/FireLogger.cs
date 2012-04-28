@@ -33,6 +33,11 @@ namespace NFireLogger
 
 
         /// <summary>
+        /// Minimal version of FireLogger client
+        /// </summary>
+        public const string MINIMAL_VERSION = "1.2";
+
+        /// <summary>
         /// Current HttpContext
         /// </summary>
         private HttpContextBase HttpContext { get; set; }
@@ -104,10 +109,27 @@ namespace NFireLogger
             if (HttpContext.Request.Headers["X-Firelogger"] != null)
             {
                 Enabled = true;
+
+                CheckVersion();
             }
 
-            // TODO add version checker
             // TODO add password protection
+        }
+
+
+        /// <summary>
+        /// Check FireLogger client version number and if it's not sufficient print warning
+        /// </summary>
+        private void CheckVersion()
+        {
+            var version = new Version(HttpContext.Request.Headers["X-Firelogger"]);
+            var requiredVersion = new Version(MINIMAL_VERSION);
+
+            if (version < requiredVersion)
+            {
+                Log(-10, "NFireLogger", Level.Warning,
+                    "Your FireLogger version {0} is older then required {1}!".FormatWith(version, requiredVersion));
+            }
         }
 
 
@@ -151,9 +173,10 @@ namespace NFireLogger
         {
             var msg = new LogMessage
                           {
-                              Level    = level,
-                              Message  = text,
-                              Name     = name
+                              Level     = level,
+                              Message   = text,
+                              Arguments = parameters,
+                              Name      = name
                           };
 
             PopulateStackInfo(msg, stackTraceOffset + 1);
@@ -211,6 +234,8 @@ namespace NFireLogger
         /// <param name="stackTraceOffset">Offset of caller in stacktrace (to skip record from FireLogger)</param>
         private void PopulateStackInfo(LogMessage msg, int stackTraceOffset)
         {
+            if (stackTraceOffset < 0) return;
+
             var frame = new StackFrame(stackTraceOffset + 1, true);
 
             // TODO add option to skip this feature
