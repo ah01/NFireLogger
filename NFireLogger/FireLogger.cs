@@ -142,7 +142,7 @@ namespace NFireLogger
         /// <returns></returns>
         private bool IsRequestAuthenticated()
         {
-            if (Password == null)
+            if (string.IsNullOrEmpty(Password))
             {
                 return true; // no protection
             }
@@ -336,7 +336,9 @@ namespace NFireLogger
                 return;
             }
 
+            // TODO handle exception (e.g from JSS)
             var chunks = HttpHeaderEncoder.EncodeObjectIntoChunks(data);
+            
             var id = new Random().Next(16, int.MaxValue);
 
             for (long n = 0; n < chunks.Length; n++)

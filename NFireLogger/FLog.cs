@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -58,14 +60,45 @@ namespace NFireLogger
         /// <returns>New FireLogger instance</returns>
         private static FireLogger CreateFireLogger()
         {
+            string password;
+            bool silent;
+
+            LoadConfig(out silent, out password);
+
             var context = new HttpContextWrapper(HttpContext.Current);
+            var logger = new FireLogger(context, password);
 
-            // TODO handle config
+            logger.Silent = silent;
 
-            return new FireLogger(context);
+            return logger;
         }
 
 
+        /// <summary>
+        /// Load configuration from appSettings section in web.config
+        /// </summary>
+        /// <param name="silent">value of NFireLogger.Silent (true/false)</param>
+        /// <param name="password">value of NFireLogger.Password (string)</param>
+        private static void LoadConfig(out bool silent, out string password)
+        {
+            try
+            {
+                NameValueCollection appSettings = ConfigurationManager.AppSettings;
+
+                password = appSettings["NFireLogger.Password"];
+
+                if (!bool.TryParse(appSettings["NFireLogger.Silent"], out silent))
+                {
+                    silent = true;
+                }
+            }
+            catch (ConfigurationErrorsException)
+            {
+                // default values
+                password = null;
+                silent = true;
+            }
+        }
 
         #region Static Logging Helpers
 
