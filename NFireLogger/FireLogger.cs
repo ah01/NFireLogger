@@ -122,13 +122,21 @@ namespace NFireLogger
         /// </summary>
         private void CheckVersion()
         {
-            var version = new Version(HttpContext.Request.Headers["X-Firelogger"]);
+            Version version;
             var requiredVersion = new Version(MINIMAL_VERSION);
 
-            if (version < requiredVersion)
+            if (Version.TryParse(HttpContext.Request.Headers["X-Firelogger"], out version))
+            { 
+                if (version < requiredVersion)
+                {
+                    Log(-10, "NFireLogger", Level.Warning,
+                        "Your FireLogger version {0} is older then required {1}!".FormatWith(version, requiredVersion));
+                }
+            }
+            else
             {
-                Log(-10, "NFireLogger", Level.Warning,
-                    "Your FireLogger version {0} is older then required {1}!".FormatWith(version, requiredVersion));
+                Log(-10, "NFireLogger", Level.Error,
+                        "Cannot determine your FireLogger version!".FormatWith(version, requiredVersion));
             }
         }
 
