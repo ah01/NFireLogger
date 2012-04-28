@@ -129,13 +129,13 @@ namespace NFireLogger
         /// </summary>
         private void AutodetectState()
         {
-            if (HttpContext.Request == null)
+            if (Request == null)
             {
-                InternalError("Request is null");
+                InternalError("Request not available");
                 return;
             }
 
-            if (HttpContext.Request.Headers["X-Firelogger"] != null)
+            if (Request.Headers["X-Firelogger"] != null)
             {
                 Enabled = IsRequestAuthenticated();
                 CheckVersion();
@@ -154,7 +154,7 @@ namespace NFireLogger
                 return true; // no protection
             }
 
-            var clientToken = HttpContext.Request.Headers["X-FireLoggerAuth"];
+            var clientToken = Request.Headers["X-FireLoggerAuth"];
 
             if (clientToken == null)
             {
@@ -182,7 +182,7 @@ namespace NFireLogger
             Version version;
             var requiredVersion = new Version(MINIMAL_VERSION);
 
-            if (Version.TryParse(HttpContext.Request.Headers["X-Firelogger"], out version))
+            if (Version.TryParse(Request.Headers["X-Firelogger"], out version))
             { 
                 if (version < requiredVersion)
                 {
@@ -352,7 +352,7 @@ namespace NFireLogger
         /// <param name="data">POCO object to be send</param>
         private void AddHeadersToResponse(object data)
         {
-            if (HttpContext == null || HttpContext.Response == null)
+            if (HttpContext == null || Response == null)
             {
                 InternalError("HttpContext or Response is null");
                 return;
@@ -363,7 +363,45 @@ namespace NFireLogger
 
             for (long n = 0; n < chunks.Length; n++)
             {
-                HttpContext.Response.AddHeader("FireLogger-{0:X}-{1}".FormatWith(id, n), chunks[n]);
+                Response.AddHeader("FireLogger-{0:X}-{1}".FormatWith(id, n), chunks[n]);
+            }
+        }
+
+
+        /// <summary>
+        /// Current Request or null
+        /// </summary>
+        private HttpRequestBase Request
+        {
+            get
+            {
+                try
+                {
+                    return HttpContext.Request;
+                }
+                catch (HttpException)
+                {
+                    return null;
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Current Response or null
+        /// </summary>
+        private HttpResponseBase Response
+        {
+            get
+            {
+                try
+                {
+                    return HttpContext.Response;
+                }
+                catch (HttpException)
+                {
+                    return null;
+                }
             }
         }
 

@@ -37,6 +37,7 @@ namespace MvcDemo
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
 
+            // NOTE this log will never show up in FireLogger if you run app in IIS under Integrated mode!
             FLog.Log("Global.asax", Level.Info, "Application Start");
         }
 
