@@ -8,6 +8,9 @@ using System.Web;
 
 namespace NFireLogger
 {
+    /// <summary>
+    /// Static helper class for FireLogger. Handle FireLogger instace for current Http Context.
+    /// </summary>
     public static class FLog
     {
         private const string CONTEXT_KEY = "__NFireLogger__";

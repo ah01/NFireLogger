@@ -5,6 +5,9 @@ using System.Text;
 
 namespace NFireLogger
 {
+    /// <summary>
+    /// Represenst common logging methods
+    /// </summary>
     public interface ILogger
     {
         void Log(Level level, string message, params object[] parameters);

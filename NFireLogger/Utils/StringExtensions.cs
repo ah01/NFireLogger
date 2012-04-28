@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -8,7 +6,6 @@ namespace NFireLogger.Utils
 {
     public static class StringExtensions
     {
-
         /// <summary>
         /// Split string in to array by given length
         /// </summary>
@@ -17,12 +14,10 @@ namespace NFireLogger.Utils
         /// <returns>array of chunks</returns>
         public static string[] SplitToArray(this string str, int chars)
         {
-            // TODO check to work with long numbers
-
-            var count = (long) Math.Ceiling((double)str.Length/chars);
+            var count = (int) Math.Ceiling((double)str.Length/chars);
             var result = new string[count];
             var ch = Math.Min(chars, str.Length);
-
+            
             for (var i = 0; i < count; i++)
             {
                 result[i] = str.Substring(i*chars, ch);
@@ -74,6 +69,11 @@ namespace NFireLogger.Utils
         }
 
 
+        /// <summary>
+        /// Return md5 hash of string in hex format
+        /// </summary>
+        /// <param name="value">string for hash calculation</param>
+        /// <returns>md5 hash</returns>
         public static string ToMd5(this string value)
         {
             var md5 = new MD5CryptoServiceProvider();
@@ -89,6 +89,5 @@ namespace NFireLogger.Utils
             }
             return s.ToString();
         }
-
     }
 }

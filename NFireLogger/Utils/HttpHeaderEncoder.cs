@@ -13,10 +13,10 @@ namespace NFireLogger.Utils
 
 
         /// <summary>
-        /// 
+        /// Serialize object according to FireLogger spec.
         /// </summary>
-        /// <param name="o"></param>
-        /// <returns></returns>
+        /// <param name="o">object to be serialized</param>
+        /// <returns>chunks of serialized object</returns>
         public static string[] EncodeObjectIntoChunks(object o)
         {
             return EncodeObject(o).SplitToArray(HEADER_CHUNK_SIZE);
@@ -56,12 +56,13 @@ namespace NFireLogger.Utils
             
             // EncodeNonAsciiCharacters simulate PHP implementation of firelogger server 
             // (in fact php function json_encode do this internaly with every string)
-            
+
+            var sanitized = value.EncodeNonAsciiCharacters();
+
             // ColdFusion implementation throw away every non ascii characters (replace with '?')
             // comment in CF implementation: firebug/logger/json parser seems to choke on high ascii characters
             // (see https://github.com/mpaperno/CF-FireLogger/blob/master/us/wdg/cf/firelogger.cfc#L948 )
             
-            var sanitized = value.EncodeNonAsciiCharacters();
 
             var bytes = Encoding.UTF8.GetBytes(sanitized);
 

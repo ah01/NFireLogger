@@ -9,9 +9,11 @@ using NFireLogger.Utils;
 
 namespace NFireLogger
 {
+    /// <summary>
+    /// Handle all logging stuff for FireLogger extension
+    /// </summary>
     public partial class FireLogger : ILogger
     {
-        
         /// <summary>
         /// Enable/Disable logging 
         /// (it's automaticaly set according to HTTP headers in request)
@@ -90,19 +92,19 @@ namespace NFireLogger
 
 
         /// <summary>
-        /// 
+        /// Initializes a new instance of the FireLogger class.
         /// </summary>
-        /// <param name="httpContext"></param>
+        /// <param name="httpContext">HttpContext to be used for logs.</param>
         public FireLogger(HttpContextBase httpContext) : this(httpContext, null)
         {
         }
 
 
         /// <summary>
-        /// 
+        /// Initializes a new instance of the FireLogger class with password protection.
         /// </summary>
-        /// <param name="httpContext"></param>
-        /// <param name="password"></param>
+        /// <param name="httpContext">Client password</param>
+        /// <param name="password">HttpContext to be used for logs.</param>
         public FireLogger(HttpContextBase httpContext, string password)
         {
             if (httpContext == null)
@@ -113,6 +115,7 @@ namespace NFireLogger
 
             HttpContext = httpContext;
             Password = password;
+            Silent = true;
 
             AutodetectState();
         }
@@ -126,7 +129,11 @@ namespace NFireLogger
         /// </summary>
         private void AutodetectState()
         {
-            // TODO check missing HttpContext
+            if (HttpContext.Request == null)
+            {
+                InternalError("Request is null");
+                return;
+            }
 
             if (HttpContext.Request.Headers["X-Firelogger"] != null)
             {
@@ -137,9 +144,9 @@ namespace NFireLogger
 
 
         /// <summary>
-        /// 
+        /// Evaluate auth. token according to Password (if none return true)
         /// </summary>
-        /// <returns></returns>
+        /// <returns>enable state</returns>
         private bool IsRequestAuthenticated()
         {
             if (string.IsNullOrEmpty(Password))
@@ -156,7 +163,7 @@ namespace NFireLogger
 
             var myToken = "#FireLoggerPassword#{0}#".FormatWith(Password).ToMd5();
 
-            bool res = clientToken == myToken;
+            var res = clientToken == myToken;
 
             if (!res)
             {
@@ -211,11 +218,11 @@ namespace NFireLogger
 
 
         /// <summary>
-        /// 
+        /// Add new message to output
         /// </summary>
-        /// <param name="level"></param>
-        /// <param name="text"></param>
-        /// <param name="p"></param>
+        /// <param name="level">log level</param>
+        /// <param name="text">text of log message</param>
+        /// <param name="p">parameters</param>
         public void Log(Level level, string text, params object[] p)
         {
             Log(1, DEFAULT_NAME, level, text, p);
@@ -246,6 +253,13 @@ namespace NFireLogger
         }
 
 
+        /// <summary>
+        /// Log exception
+        /// </summary>
+        /// <param name="stackTraceOffset">Offset of caller in stacktrace (to skip record from FireLogger)</param>
+        /// <param name="name">Logger name</param>
+        /// <param name="level">Log level</param>
+        /// <param name="ex">Exception to be logged</param>
         internal void Exception(int stackTraceOffset, string name, Level level, Exception ex)
         {
             var msg = new ExceptionMessage
@@ -280,11 +294,19 @@ namespace NFireLogger
         {
             if (Enabled)
             {
-                lock (this)
+                try
                 {
-                    var logs = new LogPacket(Logs);
-                    AddHeadersToResponse(logs);
-                    Logs.Clear();
+                    lock (this)
+                    {
+                        var packet = new LogPacket(Logs);
+                        AddHeadersToResponse(packet);
+                        Logs.Clear();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    InternalError("Error during serializing to Http Response: [{0}] {1}"
+                        .FormatWith(ex.GetType().FullName, ex.Message));
                 }
             }
         }
@@ -315,8 +337,8 @@ namespace NFireLogger
 
             var frame = new StackFrame(stackTraceOffset + 1, true);
 
-            // TODO add option to skip this feature
-            // TODO check what happen when PDB file is missing (values should be null)
+            // NOTE consider add option to skip this feature
+            // NOTE when PDB files are missing (e.g. production servers) result values is null, consider some info values
             // TODO do something with path (it's absolute)
 
             msg.PathName = frame.GetFileName();
@@ -336,9 +358,7 @@ namespace NFireLogger
                 return;
             }
 
-            // TODO handle exception (e.g from JSS)
             var chunks = HttpHeaderEncoder.EncodeObjectIntoChunks(data);
-            
             var id = new Random().Next(16, int.MaxValue);
 
             for (long n = 0; n < chunks.Length; n++)
@@ -349,9 +369,9 @@ namespace NFireLogger
 
 
         /// <summary>
-        /// 
+        /// Internal error logging
         /// </summary>
-        /// <param name="reason"></param>
+        /// <param name="reason">error message</param>
         [Conditional("TRACE")]
         private void InternalError(string reason)
         {

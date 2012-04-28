@@ -90,9 +90,7 @@ namespace NFireLogger
         public string message { get { return Message.FormatWith(Arguments); } }
 
         // if template is not null it has priority over message (icording to PHP implementation)
-
         // public string template { get { return Message.FormatWith(Arguments); } }
-        
         // public object[] args { get { return Arguments; } }
 
         public string level { get { return Level.ToString().ToLower(); } }

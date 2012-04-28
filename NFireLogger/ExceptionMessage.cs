@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Web.Script.Serialization;
 using NFireLogger.Utils;
 
 namespace NFireLogger
 {
+    /// <summary>
+    /// Log Message with details about exception
+    /// </summary>
     class ExceptionMessage : LogMessage
     {
-
         #region Internal properties
 
         /// <summary>

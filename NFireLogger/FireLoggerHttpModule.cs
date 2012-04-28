@@ -6,14 +6,26 @@ using System.Web;
 
 namespace NFireLogger
 {
+    /// <summary>
+    /// HttpModule for Close (=> send logs) FireLogger instance (via FLog class) at the end of request. 
+    /// </summary>
     public class FireLoggerHttpModule : IHttpModule
     {
+        /// <summary>
+        /// Module initialization
+        /// </summary>
         public void Init(HttpApplication application)
         {
             application.EndRequest += ApplicationOnEndRequest;
         }
 
-        void ApplicationOnEndRequest(object sender, EventArgs e)
+
+        /// <summary>
+        /// Close FireLogger at the end of request
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ApplicationOnEndRequest(object sender, EventArgs e)
         {
             if (FLog.IsActive)
             {
@@ -21,8 +33,10 @@ namespace NFireLogger
             }
         }
 
+
         public void Dispose()
         {
+            // nothing to dispouse
         }
     }
 }
