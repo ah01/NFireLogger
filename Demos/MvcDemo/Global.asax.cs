@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using NFireLogger;
 
 namespace MvcDemo
 {
@@ -36,16 +37,15 @@ namespace MvcDemo
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
 
+            FLog.Log("Global.asax", Level.Info, "Application Start");
         }
 
         protected void Application_EndRequest()
         {
-            
         }
         
         protected void Application_StartRequest()
         {
-            //new NFireLogger.FireLogger().Handler(HttpContext.Current.Response);
         }
     }
 }

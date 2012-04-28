@@ -1,7 +1,169 @@
-﻿@model object
-
-@{
-    ViewBag.Title = "title";
+﻿@{
+    ViewBag.Title = "NFireLogger";
 }
 
-<h2>title</h2>
+@helper TestButton(string action) {
+    <div class="test">
+        <a class="btn btn-primary" data-action="@action" href="javascript:;">
+            <i class="icon-play-circle icon-white"></i>
+            Test this!
+        </a>
+    </div>
+}
+
+@{
+    var isFirefox = Request.Browser.Browser.ToLower().Contains("firefox");
+}
+
+<div class="container">
+
+    <div id="header" class="page-header">
+        <h1>NFireLogger</h1>
+        <p>
+            <em>FireLogger server-side library for .net </em>
+        </p>
+    </div>
+
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="container">
+                <ul class="nav">
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#examples">Examples</a></li>
+                    <li><a href="#setup">Setup</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="about">
+        <h2>About</h2>
+
+        <p>
+            <strong>NFireLogger</strong> is <em>.net</em> server-side library for <a href="http://firelogger.binaryage.com/">FireLogger</a>.
+        </p>
+
+        @if (!isFirefox)
+        {
+            <div class="alert alert-error">
+                <strong>Sorry</strong>, FireLogger works only under Firefox. 
+            </div>
+        }
+        
+    </div>
+    
+    <div id="examples">
+
+        <h2>Examples</h2>
+
+        
+
+        @if (NFireLogger.FLog.Current.Enabled == false && isFirefox)
+        {
+            <div class="alert alert-error">
+                <strong>Watch out</strong>, before you run the tests you have to enable your FireLogger.
+            </div>
+        }
+        
+        <p>
+            Some examples
+        </p>
+
+        <h3>Basic usage</h3>
+
+        <p>
+            Easiest way is to use static class <code>FLog</code>. There are 5 log levels.
+        </p>
+
+<pre>
+FLog.Debug("DEBUG log level");
+FLog.Info("INFO log level");
+FLog.Error("ERROR log level");
+FLog.Warning("WARNING level");
+FLog.Critical("CRITICAL log level");
+</pre>
+
+        <p>
+            Each has formatted version:
+        </p>
+
+<pre>
+FLog.Info("Request from {0} arrived at {1}", Request.UserHostAddress, DateTime.Now);
+</pre>
+
+        @TestButton("basic")
+
+
+        <h3>Named Logger</h3>
+
+<pre>
+var logger = FLog.GetLogger("MyLogger");
+
+logger.Debug("This is logged as MyLogger");
+logger.Warning("... and also this.");
+</pre>
+
+        @TestButton("named")
+
+
+        <h3>Exception</h3>
+
+        <p>
+            There is method for exception logging. 
+        </p>
+
+<pre>
+try
+{
+    DoSomething();
+}
+catch (Exception ex)
+{
+    FLog.Exception(ex);
+}
+</pre>
+
+        @TestButton("exception")
+
+    </div>
+
+    <div id="setup">
+        <h2>Setup</h2>
+
+        <p>Setup is very easy:</p>
+
+        <p>
+            <span class="badge badge-info">1</span> Add reference for <code>NFireLogger.dll</code> to your project.
+        </p>
+
+        <p>
+            <span class="badge badge-info">2</span> Add HttpModul <code>NFireLogger.FireLoggerHttpModule</code> to your <em>web.config</em>.
+        </p>
+
+        <p>
+            For IIS7 in Integrated mode it looks like this:
+        </p>
+<pre>
+&lt;system.webServer&gt;
+    &lt;modules&gt;
+        &lt;add name="FireLoggerHttpModule" type="NFireLogger.FireLoggerHttpModule"/&gt;
+    &lt;/modules&gt;
+&lt;/system.webServer&gt;
+</pre>
+
+        <p>
+            For Standard mode or IIS6 look at documentation for server.
+        </p>
+
+        <p>
+            <span class="badge badge-info">3</span> <strong>Done!</strong> Now you can use <code>FLog</code>.
+        </p>
+
+
+    </div>
+    
+    
+    <a href="https://github.com/ah01/NFireLogger/"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/camo.github.com/71eeaab9d563c2b3c590319b398dd35683265e85/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub"></a>
+        
+</div>
