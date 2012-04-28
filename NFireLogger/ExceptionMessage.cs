@@ -37,7 +37,7 @@ namespace NFireLogger
             exc_frames – contains locals for all stack frames listed in exc_info
          */
 
-        public string message
+        public new string message
         {
             get { return "[{0}] {1}".FormatWith(Exception.GetType().Name, Exception.Message); }
         }
