@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExceptionMessage.cs" />
     <Compile Include="FireLogger.ILogger.cs" />
     <Compile Include="FireLogger.cs" />
     <Compile Include="FireLoggerHttpModule.cs" />

@@ -14,5 +14,7 @@ namespace NFireLogger
         void Warning(string message, params object[] parameters);
         void Error(string message, params object[] parameters);
         void Critical(string message, params object[] parameters);
+
+        void Exception(Exception ex);
     }
 }

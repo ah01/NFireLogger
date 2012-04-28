@@ -118,6 +118,9 @@ namespace NFireLogger
         }
 
 
+        #region Http Request Processing
+
+
         /// <summary>
         /// Detect enable state from HTTP request
         /// </summary>
@@ -188,6 +191,9 @@ namespace NFireLogger
         }
 
 
+        #endregion
+
+
         /// <summary>
         /// Add new message to output
         /// </summary>
@@ -238,6 +244,22 @@ namespace NFireLogger
 
             Log(msg);
         }
+
+
+        internal void Exception(int stackTraceOffset, string name, Level level, Exception ex)
+        {
+            var msg = new ExceptionMessage
+                          {
+                              Level = level,
+                              Name = name,
+                              Exception = ex
+                          };
+
+            PopulateStackInfo(msg, stackTraceOffset + 1);
+
+            Log(msg);
+        }
+
 
 
         /// <summary>

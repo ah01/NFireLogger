@@ -21,6 +21,12 @@ namespace NFireLogger
         public string Message { get; set; }
 
         /// <summary>
+        /// array of arguments to be replaced in template
+        /// </summary>
+        [ScriptIgnore]
+        public object[] Arguments { get; set; }
+
+        /// <summary>
         /// Debug level, one of debug,info,warning,error,exception
         /// </summary>
         [ScriptIgnore]
@@ -61,7 +67,7 @@ namespace NFireLogger
             args      – array of arguments to be replaced in template. it is your hard 
                         work to provide FireLogger with detailed representation of 
                         arguments as structured data so user can drill it down in the 
-                        Watches window. note: in current example, there is “py/tuple” 
+                        Watches window. n ote: in current example, there is “py/tuple” 
                         structure wrapping actual array. This is specific to Python 
                         jsonpickle library, FireLogger can unwrap it, but you should 
                         send plain array in this case.
@@ -74,7 +80,20 @@ namespace NFireLogger
             see https://github.com/darwin/firelogger/wiki
         */
 
-        public string message { get { return Message; } }
+        /*
+            other files from PHP implementation:
+                order
+        */
+
+        // TODO add support for template type of logs
+
+        public string message { get { return Message.FormatWith(Arguments); } }
+
+        // if template is not null it has priority over message (icording to PHP implementation)
+
+        // public string template { get { return Message.FormatWith(Arguments); } }
+        
+        // public object[] args { get { return Arguments; } }
 
         public string level { get { return Level.ToString().ToLower(); } }
 

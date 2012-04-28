@@ -41,7 +41,31 @@ namespace NFireLogger.MvcDemo.Controllers
             log.Warning("WARNING level");
             log.Critical("CRITICAL log level");
 
+
+            FLog.Info("Text: {0}", "Lorem Ipsum");
+
+
+            FLog.Info("HttpContext", HttpContext.Request.Headers);
+
+            //DoSomethingWrong();
+
+            try
+            {
+                DoSomethingWrong();
+            }
+            catch (Exception ex)
+            {
+                FLog.Current.Exception(ex);
+            }
+
+
+
             return View();
+        }
+
+        private void DoSomethingWrong()
+        {
+            throw new ArgumentException("invalid argument", "argName");
         }
 
     }

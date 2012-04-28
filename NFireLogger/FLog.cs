@@ -111,6 +111,15 @@ namespace NFireLogger
             if (IsWeb) Current.Log(1, FireLogger.DEFAULT_NAME, Level.Critical, message, parameters);
         }
 
+        public static void Exception(Exception ex)
+        {
+            if (IsWeb) Current.Exception(1, FireLogger.DEFAULT_NAME, Level.Critical, ex);
+        }
+
+        public static void Exception(string name, Exception ex)
+        {
+            if (IsWeb) Current.Exception(1, name, Level.Critical, ex);
+        }
 
         #endregion
 

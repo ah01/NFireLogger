@@ -52,5 +52,10 @@ namespace NFireLogger
         {
             Logger.Log(1, Name, Level.Critical, message, parameters);
         }
+
+        public void Exception(Exception ex)
+        {
+            Logger.Exception(1, Name, Level.Critical, ex);
+        }
     }
 }
