@@ -32,3 +32,16 @@
 #nuget .link {
     text-align: right;
 }
+
+#footer {
+    margin-top: 50px;
+    border-top: solid #aaa 1px;
+    padding: 20px 0 20px 0;
+    color: #666;
+    font-size: 90%;
+    text-align: right;
+}
+
+#footer a {
+    color: #666;
+}
