@@ -6,6 +6,7 @@
     <title>NFireLogger</title>
     <authors>Adam Horcica</authors>
     <projectUrl>http://nfirelogger.apphb.com</projectUrl>
+    <iconUrl>http://nfirelogger.apphb.com/Content/images/firelogger-logo-64.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>FireLogger server-side library for .net</description>
     <tags>logging log firelogger</tags>
