@@ -19,14 +19,21 @@ namespace NFireLogger
         /// <summary>
         /// FireLogger instance for logging into
         /// </summary>
-        public FireLogger Logger { get; private set; }
+        public FireLogger Logger { get { return _loggetCallback(); } }
 
-
+        private Func<FireLogger> _loggetCallback;
         
         public NamedLogger(string name, FireLogger logger)
         {
             Name = name;
-            Logger = logger;
+            _loggetCallback = () => logger;
+        }
+
+
+        public NamedLogger(string name, Func<FireLogger> loggerCallback)
+        {
+            Name = name;
+            _loggetCallback = loggerCallback;
         }
 
         

@@ -8,6 +8,20 @@ namespace NFireLogger.MvcDemo.Controllers
 {
     public class HomeController : Controller
     {
+        private static ILogger logger = FLog.GetLogger("Controller");
+
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            logger.Info("Action '{0}' executing.", filterContext.ActionDescriptor.ActionName);
+            base.OnActionExecuting(filterContext);
+        }
+
+        protected override void OnResultExecuted(ResultExecutedContext filterContext)
+        {
+            logger.Info("Action executed.");
+            base.OnResultExecuted(filterContext);
+        }
+
         public ActionResult Index()
         {
             FLog.Info("Info message");

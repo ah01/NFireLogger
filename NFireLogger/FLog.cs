@@ -106,6 +106,25 @@ namespace NFireLogger
         #region Static Logging Helpers
 
 
+        /// <summary>
+        /// Return named logger that use up-to-date FLog.Current 
+        /// (it's not dependent on current HttpContext and FireLogger instance)
+        /// </summary>
+        /// <param name="name">name of logger</param>
+        /// <returns>independent named logger</returns>
+        public static ILogger GetLogger(string name)
+        {
+            if (IsWeb)
+            {
+                return new NamedLogger(name, () => Current);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+
         public static void Log(string name, Level level, string message, params object[] parameters)
         {
             if (IsWeb) Current.Log(1, name, level, message, parameters);

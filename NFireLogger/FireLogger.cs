@@ -284,10 +284,10 @@ namespace NFireLogger
 
 
         /// <summary>
-        /// Return named logger 
+        /// Return named logger for this instance
         /// </summary>
         /// <param name="name">name of logger</param>
-        /// <returns></returns>
+        /// <returns>Named Logger conected with this instance of FireLogger</returns>
         public ILogger GetLogger(string name)
         {
             return new NamedLogger(name, this);
