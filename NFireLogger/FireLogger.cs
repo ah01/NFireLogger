@@ -225,7 +225,10 @@ namespace NFireLogger
         /// <param name="p">parameters</param>
         public void Log(Level level, string text, params object[] p)
         {
-            Log(1, DEFAULT_NAME, level, text, p);
+            if (InternalEnabled)
+            {
+                Log(1, DEFAULT_NAME, level, text, p);
+            }
         }
 
 
@@ -239,6 +242,8 @@ namespace NFireLogger
         /// <param name="parameters">Parameters of message</param>
         internal void Log(int stackTraceOffset, string name, Level level, string text, params object[] parameters)
         {
+            if (!InternalEnabled) return;
+            
             var msg = new LogMessage
                           {
                               Level     = level,
@@ -262,6 +267,8 @@ namespace NFireLogger
         /// <param name="ex">Exception to be logged</param>
         internal void Exception(int stackTraceOffset, string name, Level level, Exception ex)
         {
+            if (!InternalEnabled) return;
+
             var msg = new ExceptionMessage
                           {
                               Level = level,
