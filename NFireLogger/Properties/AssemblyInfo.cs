@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("NFireLogger")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("FireLogger server-side library for .net")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("NFireLogger")]

@@ -1,0 +1,13 @@
+<configuration>
+    <system.web>
+        <httpModules>
+            <add name="FireLoggerHttpModule" type="NFireLogger.FireLoggerHttpModule"/>
+        </httpModules>
+    </system.web>
+    <system.webServer>
+        <validation validateIntegratedModeConfiguration="false" />
+        <modules>
+            <add name="FireLoggerHttpModule" type="NFireLogger.FireLoggerHttpModule"/>
+        </modules>
+    </system.webServer>
+</configuration>

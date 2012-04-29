@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>NFireLogger</id>
+    <version>1.0.0</version>
+    <title>NFireLogger</title>
+    <authors>Adam Horcica</authors>
+    <projectUrl>http://nfirelogger.apphb.com</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>FireLogger server-side library for .net</description>
+    <tags>logging log firelogger</tags>
+  </metadata>
+</package>

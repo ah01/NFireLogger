@@ -26,3 +26,5 @@ _ReSharper*/
 [Tt]est[Rr]esult*
 /packages
 /NFireLogger/packages
+/NugetPackage/temp
+/NugetPackage/*.nupkg
