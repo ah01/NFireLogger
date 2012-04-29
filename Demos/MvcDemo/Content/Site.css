@@ -9,3 +9,26 @@
     top: -1px;
     margin-right: 10px;
 }
+
+.chapter {
+    margin-top: 40px;
+}
+
+#screen {
+    text-align: right;
+}
+
+#nuget {
+    margin-top: 45px;
+    
+}
+
+#nuget .well {
+    font-weight: bold;
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    margin-bottom: 10px;
+}
+
+#nuget .link {
+    text-align: right;
+}

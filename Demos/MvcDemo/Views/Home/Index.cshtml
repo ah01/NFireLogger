@@ -30,34 +30,60 @@
                 <ul class="nav">
                     <li><a href="#about">About</a></li>
                     <li><a href="#examples">Examples</a></li>
-                    <li><a href="#setup">Setup</a></li>
+                    <li><a href="#config">Configuration</a></li>
+                    <li><a href="#setup">Manual Setup</a></li>
                 </ul>
             </div>
         </div>
     </div>
 
+    @* ==== About ========================================================== *@
 
-    <div id="about">
-        <h2>About</h2>
+    <div id="about" class="chapter">
+        
+        <div class="row">
+            
+            <div class="span6">
+                <p>
+                    <strong>NFireLogger</strong> is <em>.net</em> server-side library for <a href="http://firelogger.binaryage.com/">FireLogger</a>.
+                </p>
 
-        <p>
-            <strong>NFireLogger</strong> is <em>.net</em> server-side library for <a href="http://firelogger.binaryage.com/">FireLogger</a>.
-        </p>
+                <div id="nuget">
+                    <p>
+                        It's available as <strong><a href="http://nuget.org">NuGet</a></strong> package:
+                    </p>
+                    <div class="well">
+                        <a href="#">
+                            PM> Install-Package NFireLogger 
+                        </a>
+                    </div>
+                </div>
 
+            </div>
+
+            <div class="span6" id="screen">
+                <a href="@Url.Content("~/Content/firelogger.png")">
+                    <img src="@Url.Content("~/Content/firelogger_m.png")" width="435" height="162" alt="FireLogger" />
+                </a>
+            </div>
+        
+        
+        </div>
+        
         @if (!isFirefox)
         {
             <div class="alert alert-error">
                 <strong>Sorry</strong>, FireLogger works only under Firefox. 
             </div>
         }
-        
+
     </div>
     
-    <div id="examples">
+    @* ==== Examples ======================================================= *@
+
+    <div id="examples" class="chapter">
 
         <h2>Examples</h2>
-
-        
 
         @if (NFireLogger.FLog.Current.Enabled == false && isFirefox)
         {
@@ -128,10 +154,42 @@ catch (Exception ex)
 
     </div>
 
-    <div id="setup">
-        <h2>Setup</h2>
 
-        <p>Setup is very easy:</p>
+    @* ==== Config ======================================================= *@
+
+    <div id="config" class="chapter">
+        <h2>Configuration</h2>
+
+        <p>
+            There are 2 configuration that can be put in <code>appSettings</code> section in <code>web.config</code>:
+        </p>
+    
+        <dl>
+            <dt>NFireLogger.Password</dt>
+            <dd>Specify password for FireLogger authentication. <em>Default:</em> <code>""</code></dd>
+            
+            <dt>NFireLogger.Silent</dt>
+            <dd>All internal errors of FireLogger is throw away it this is <code>true</code>. Otherwise it's logger by standart Trace technique. <em>Default:</em> <code>true</code></dd>
+        </dl>
+    
+<pre>
+&lt;configuration&gt;
+    &lt;appSettings&gt;
+        &lt;add key="NFireLogger.Password" value="password" /&gt;
+        &lt;add key="NFireLogger.Silent" value="true" /&gt;
+    &lt;/appSettings&gt;
+&lt;/configuration&gt;
+</pre>
+
+    </div>
+
+    @* ==== Manual Setup ======================================================= *@
+
+
+    <div id="setup" class="chapter">
+        <h2>Manual Setup</h2>
+
+        <p>If you dont't want to use NuGet, here is manual setup:</p>
 
         <p>
             <span class="badge badge-info">1</span> Add reference for <code>NFireLogger.dll</code> to your project.
