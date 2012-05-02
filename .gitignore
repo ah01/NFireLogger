@@ -28,3 +28,5 @@ _ReSharper*/
 /NFireLogger/packages
 /NugetPackage/temp
 /NugetPackage/*.nupkg
+/NugetPackage/nfirelogger
+/NugetPackage/nfirelogger-log4net
