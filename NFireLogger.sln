@@ -22,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{BB39D5
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NFireLogger.Log4net", "NFireLogger.Log4net\NFireLogger.Log4net.csproj", "{D4201A24-0CA5-449B-BE53-025AF3D1005B}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = NFireLogger.vsmdi
@@ -42,6 +44,10 @@ Global
 		{BA77B618-55B8-4456-8C1F-BAD6757FB17B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BA77B618-55B8-4456-8C1F-BAD6757FB17B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA77B618-55B8-4456-8C1F-BAD6757FB17B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4201A24-0CA5-449B-BE53-025AF3D1005B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4201A24-0CA5-449B-BE53-025AF3D1005B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4201A24-0CA5-449B-BE53-025AF3D1005B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4201A24-0CA5-449B-BE53-025AF3D1005B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

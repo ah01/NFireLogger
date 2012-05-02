@@ -36,6 +36,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -157,6 +160,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\NFireLogger.Log4net\NFireLogger.Log4net.csproj">
+      <Project>{D4201A24-0CA5-449B-BE53-025AF3D1005B}</Project>
+      <Name>NFireLogger.Log4net</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\NFireLogger\NFireLogger.csproj">
       <Project>{523BB607-7815-41F7-ADFB-750D7C78E66E}</Project>
       <Name>NFireLogger</Name>

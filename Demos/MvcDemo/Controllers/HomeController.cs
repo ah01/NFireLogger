@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using log4net;
 
 namespace NFireLogger.MvcDemo.Controllers
 {
@@ -131,6 +132,17 @@ namespace NFireLogger.MvcDemo.Controllers
             {
                 FLog.Current.Exception(ex);
             }
+
+            return Content("ok");
+        }
+
+
+        public ActionResult Log4net()
+        {
+            var l = LogManager.GetLogger("log4net");
+
+            l.Info("Test");
+            l.DebugFormat("Debug test {0}", DateTime.Now);
 
             return Content("ok");
         }
