@@ -9,7 +9,7 @@ namespace NFireLogger.MvcDemo.Controllers
 {
     public class HomeController : Controller
     {
-        private static ILogger logger = FLog.GetLogger("Controller");
+        private static ILogger logger = FLog.GetLogger("DemoController");
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -141,9 +141,9 @@ namespace NFireLogger.MvcDemo.Controllers
         {
             var l = LogManager.GetLogger("log4net");
 
-            l.Info("Test");
-            l.DebugFormat("Debug test {0}", DateTime.Now);
-
+            l.Info("Info message from log4net");
+            l.DebugFormat("and debug message at {0}", DateTime.Now.ToShortTimeString());
+            
             return Content("ok");
         }
 
