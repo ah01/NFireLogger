@@ -23,7 +23,7 @@
     
 }
 
-#nuget .well {
+#nuget .well, .nuget {
     font-weight: bold;
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
     margin-bottom: 10px;

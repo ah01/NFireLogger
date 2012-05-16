@@ -64,14 +64,15 @@ namespace NFireLogger
         private static FireLogger CreateFireLogger()
         {
             string password;
-            bool silent;
+            bool silent, logFileInfo;
 
-            LoadConfig(out silent, out password);
+            LoadConfig(out silent, out password, out logFileInfo);
 
             var context = new HttpContextWrapper(HttpContext.Current);
             var logger = new FireLogger(context, password);
 
             logger.Silent = silent;
+            logger.LogFileInfo = logFileInfo;
 
             return logger;
         }
@@ -82,7 +83,7 @@ namespace NFireLogger
         /// </summary>
         /// <param name="silent">value of NFireLogger.Silent (true/false)</param>
         /// <param name="password">value of NFireLogger.Password (string)</param>
-        private static void LoadConfig(out bool silent, out string password)
+        private static void LoadConfig(out bool silent, out string password, out bool logFileInfo)
         {
             try
             {
@@ -94,12 +95,18 @@ namespace NFireLogger
                 {
                     silent = true;
                 }
+
+                if (!bool.TryParse(appSettings["NFireLogger.LogFileInfo"], out logFileInfo))
+                {
+                    logFileInfo = true;
+                }
             }
             catch (ConfigurationErrorsException)
             {
                 // default values
                 password = null;
                 silent = true;
+                logFileInfo = true;
             }
         }
 

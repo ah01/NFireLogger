@@ -42,8 +42,11 @@ namespace NFireLogger.Log4net
         /// <param name="loggingEvent">log. event from log4net</param>
         private void PopulateFileInfo(LogMessage msg, LoggingEvent loggingEvent)
         {
-            msg.PathName = loggingEvent.LocationInformation.FileName;
-            msg.LineNo = ParseLineNumber(loggingEvent.LocationInformation.LineNumber);
+            if (Logger.LogFileInfo)
+            {
+                msg.PathName = loggingEvent.LocationInformation.FileName;
+                msg.LineNo = ParseLineNumber(loggingEvent.LocationInformation.LineNumber);
+            }
         }
 
 
@@ -78,7 +81,7 @@ namespace NFireLogger.Log4net
             {
                 return Level.Info;
             }
-            else if (level >= L4N.Level.Debug)
+            else if (level <= L4N.Level.Debug)
             {
                 return Level.Debug;
             }

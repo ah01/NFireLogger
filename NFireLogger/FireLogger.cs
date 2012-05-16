@@ -36,6 +36,12 @@ namespace NFireLogger
 
 
         /// <summary>
+        /// If true, file name and line number is logged
+        /// </summary>
+        public bool LogFileInfo { get; set; }
+
+
+        /// <summary>
         /// Name of logger when none is provided
         /// </summary>
         public const string DEFAULT_NAME = "ROOT";
@@ -116,6 +122,7 @@ namespace NFireLogger
             HttpContext = httpContext;
             Password = password;
             Silent = true;
+            LogFileInfo = true;
 
             AutodetectState();
         }
@@ -342,9 +349,10 @@ namespace NFireLogger
         {
             if (stackTraceOffset < 0) return;
 
+            if (!LogFileInfo) return;
+
             var frame = new StackFrame(stackTraceOffset + 1, true);
 
-            // NOTE consider add option to skip this feature
             // NOTE when PDB files are missing (e.g. production servers) result values is null, consider some info values
             // TODO do something with path (it's absolute)
 

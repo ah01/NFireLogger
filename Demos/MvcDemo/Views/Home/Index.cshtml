@@ -30,6 +30,7 @@
                 <ul class="nav">
                     <li><a href="#about">About</a></li>
                     <li><a href="#examples">Examples</a></li>
+                    <li><a href="#log4net">Log4net</a></li>
                     <li><a href="#config">Configuration</a></li>
                     <li><a href="#setup">Manual Setup</a></li>
                 </ul>
@@ -151,6 +152,57 @@ catch (Exception ex)
 </pre>
 
         @TestButton("exception")
+
+    </div>
+
+
+    @* ==== Config ======================================================= *@
+
+    <div id="config" class="chapter">
+        <h2>Log4net Support</h2>
+
+        <p>
+            There is <em>FireLogger</em> appender for <a href="http://logging.apache.org/log4net/">log4net</a>. 
+        </p>
+
+        <p>
+            It's available also as NuGet package:
+        </p>
+
+        <div class="well nuget">
+            <a href="https://nuget.org/packages/NFireLogger.Log4net">
+                PM> Install-Package NFireLogger.Log4net
+            </a>
+        </div>
+
+        <h3>Configuration</h3>
+
+        <p>
+            You have to add appender <code>NFireLogger.Log4net.FireLoggerAppender</code> to your log4net configuration. E.g.:
+        </p>
+
+<pre>
+&lt;appender name="FireLogger" type="NFireLogger.Log4net.FireLoggerAppender, NFireLogger.Log4net"&gt;
+    &lt;layout type="log4net.Layout.PatternLayout"&gt;
+        &lt;conversionPattern value=%message" /&gt;
+    &lt;/layout&gt;
+&lt;/appender&gt;
+</pre>
+
+        <h3>Example</h3>
+
+        <p>
+            After that you can use log4net as usual
+        </p>
+
+<pre>
+var l = LogManager.GetLogger("log4net");
+
+l.Info("Info message from log4net");
+l.DebugFormat("and debug message at {0}", DateTime.Now.ToShortTimeString());
+</pre>
+
+        @TestButton("log4net")
 
     </div>
 
