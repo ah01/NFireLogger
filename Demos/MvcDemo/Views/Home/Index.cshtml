@@ -222,6 +222,9 @@ l.DebugFormat("and debug message at {0}", DateTime.Now.ToShortTimeString());
             
             <dt>NFireLogger.Silent</dt>
             <dd>All internal errors of FireLogger are thrown away if this is set to <code>true</code>. Otherwise it's logged by standard Trace technique. <em>Default:</em> <code>true</code></dd>
+
+            <dt>NFireLogger.LogFileInfo</dt>
+            <dd>In every log there will be file name and line number information it this is set to <code>true</code>. <em>Default:</em> <code>true</code></dd>
         </dl>
     
 <pre>
@@ -229,6 +232,7 @@ l.DebugFormat("and debug message at {0}", DateTime.Now.ToShortTimeString());
     &lt;appSettings&gt;
         &lt;add key="NFireLogger.Password" value="password" /&gt;
         &lt;add key="NFireLogger.Silent" value="true" /&gt;
+        &lt;add key="NFireLogger.LogFileInfo" value="true" /&gt;
     &lt;/appSettings&gt;
 &lt;/configuration&gt;
 </pre>
